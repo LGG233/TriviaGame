@@ -21,28 +21,45 @@ var questionBank = [
 ]
 var right = 0; // number of right answers
 var wrong = 0; // number of wrong answers
-var rightAns = "" // placeholder for the right answer for each question
-var blurbText = "" // placeholder for explanation of correctAnswer
+var rightAns = ""; // placeholder for the right answer for each question
+var blurbText = ""; // placeholder for explanation of correctAnswer
 var currentQuestion = 0; // variable to iterate through the array
-// var count = 30;
-// var counter = setInterval(writeDelay, 1000); //1000 will run it every 1 second
+var count = "";
+var interval = '';
 
 $(document).ready(function () {
   displayQuestion(questionBank[currentQuestion])
+  questTimer();
+  // $("#statusBar").text("You have " + count + "seconds to answer this question");
   $(".answerBtn").click(function () {
     var playerGuess = $(this).data("letter");
-    // clearInterval(writeDelay);
+    stop();
     evaluateGuess(playerGuess);
   });
 
+  function questTimer() {
+    var count = 30;
+    var interval = setInterval(countDown, 1000);
+    function countDown() {
+      $("#statusBar").text("You have " + count + " seconds left...");
+      count--;
+      if (count === 0) {
+        stop();
+        timeUp();
+        wrong = wrong++;
+      }
+    }
+  }
+
   function evaluateGuess(guess) {
+    stop();
     $("#blurbBar").text(questionBank[currentQuestion - 1].theBlurb);
     if (guess === rightAns) {
       $("#askedQuestion").html("That's right!");
       right = right + 1;
       console.log(right + " right answers");
     } else {
-      $("#askedQuestion").html("Nope, that's not it. Better luck on the next question.");
+      $("#askedQuestion").html("Nope, that's not it. ");
       wrong = wrong + 1;
       console.log(wrong + " wrong answers");
     }
@@ -51,37 +68,31 @@ $(document).ready(function () {
 
   function loadNewQuestion() {
     if (currentQuestion == 10) {
-      finalRound();
       setTimeout(totalScore, 5000);
     } else {
       displayQuestion(questionBank[currentQuestion]);
-  }
-  // clearInterval(counter);
-}
-// 
-
-  function finalRound() {
-    $("#blurbBar").text(questionBank[currentQuestion - 1].theBlurb);
-    if (guess === rightAns) {
-      $("#statusBar").html("That's right!");
-      right = right + 1;
-      console.log(right + " right answers");
-    } else {
-      $("#statusBar").html("Nope, that's not it. Better luck on the next question.");
-      wrong = wrong + 1;
-      console.log(wrong + " wrong answers");
     }
+  }
+
+  function timeUp() {
+    $("#statusBar").text("Time's up!");
   }
 
   function totalScore() {
+    $("#firstAnswer").text("Final Score! Final Score! Final Score! Final Score! Final Score!");
+    $("#secondAnswer").text(right + " right answers");
+    $("#thirdAnswer").text(wrong + " wrong answers");
+    $("#fourthAnswer").text("Final Score! Final Score! Final Score! Final Score! Final Score!");
+    $("#blurbBar").text("");
     if (right > wrong) {
-      $("#statusBar").text("Game over - good job! You have " + right + "and " + wrong + ".");
+      $("#askedQuestion").text("Game over - good job!");
     } else {
-      $("#statusBar").text("Game over. You'd better study up on your Academy Awards history! You have " + right + " right and " + wrong + "wrong.");
+      $("#askedQuestion").text("Game over - you'd better study up on your Academy Awards history!");
     }
   }
+
   function displayQuestion(foo) {
-    // gameEndProtocol();
+    setTimeout(questTimer, 30000);
     $("#askedQuestion").text(foo.theQuestion);
     $("#firstAnswer").text(foo.answerA);
     $("#secondAnswer").text(foo.answerB);
@@ -89,30 +100,16 @@ $(document).ready(function () {
     $("#fourthAnswer").text(foo.answerD);
     $("#blurbBar").text("");
     $("#statusBar").text("");
-    // timer();
     rightAns = foo.rightAns;
     currentQuestion++;
   }
-//    function gameEndProtocol() { } 
-//     if (currentQuestion == 10) {
-//   evaluateGuess();
-// }
 
-
+  function stop() {
+    clearInterval(interval);
+    $("#statusBar").text("");
+  }
 
 });
-
-  // function writeDelay() {
-  //   count = count - 1;
-  //   if (count <= 0) {
-  //     clearInterval(counter);
-  //     return;
-  //   }
-  //   $("#statusBar").text = count + " secs";
-  // }
-
-  // const timeOut = setInterval
-// });
 
   // DOM elements
   // game name
