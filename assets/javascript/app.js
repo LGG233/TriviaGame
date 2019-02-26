@@ -1,14 +1,11 @@
 // Pseudocode
 // Functions needed
-// 2. timer to give 30 to answer a question
-// 3. time to give 5 seconds showing result, correct answer, and blurb.
 // 6. function to start a new game (under a button)
-// 7. Function to run countdown clock
 
 // Variables needed
 
 var questionBank = [
-  { theQuestion: "How many Academy Awards did Titanic win?", answerA: "Four", answerB: "Nine", answerC: "Eleven", answerD: "Thirteen", theBlurb: "In 1998, Titanic received 11 Academy Awards, including Best Picture, Best Director, Best Visual Effects, and Best Actress for Kate Winslet.", rightAns: "C" },
+  { theQuestion: "How many Academy Awards did Titanic win?", answerA: "Four", answerB: "Nine", answerC: "Eleven", answerD: "Thirteen", theBlurb: "Titanic received 11 Academy Awards, including Best Picture, Best Director, Best Visual Effects, and Best Actress for Kate Winslet.", rightAns: "C" },
   { theQuestion: "Which of the following films did NOT win the Best Foreign Language Film Academy Award?", answerA: "Life is Beautiful (La vita è bella)", answerB: "Crouching Tiger, Hidden Dragon (Wo hu cang long)", answerC: "Babette’s Feast (Babettes gæstebud)", answerD: "Amélie (Le fabuleux destin d'Amélie Poulain)", theBlurb: "Amélie was nominated for five Oscars – Foreign Language Film, Best Original Screenplay, Best Cinematography, Best Sound Mixing, and Best Production Design – but did not win in any category.", rightAns: "D" },
   { theQuestion: "Who has won the most Academy Awards for acting?", answerA: "Katharine Hepburn", answerB: "Walter Brennan", answerC: "Jack Nicholson", answerD: "Ingrid Bergman", theBlurb: "Katharine Hepburn has won 4 acting awards: Best Actress- Morning Glory (1933), Guess Who's Coming to Dinner? (1967), The Lion in Winter (1968), On Golden Pond (1981). Jack Nicholson, Ingrid Bergman, and Walter Brennan all have won 3 acting Academy Awards.", rightAns: "A" },
   { theQuestion: "Who has won the most Oscars for directing?", answerA: "Steven Spielberg", answerB: "John Ford", answerC: "William Wyler", answerD: "Frank Capra", theBlurb: "John Ford has won 4 Best Director Oscars for The Informer (1935), The Grapes of Wrath (1940), How Green Was My Valley (1941), and The Quiet Man (1952). He was also nominated for Stagecoach (1939). William Wyler and Frank Capra both have won 3 times.", rightAns: "B" },
@@ -26,7 +23,6 @@ var blurbText = ""; // placeholder for explanation of correctAnswer
 var currentQuestion = 0; // variable to iterate through the array
 var count;
 var intervalID;
-// var intervalID = setInterval(countDown, 1000); // place variable at global level so it can be used throughout
 
 $(document).ready(function () {
   displayQuestion(questionBank[currentQuestion])
@@ -46,6 +42,7 @@ $(document).ready(function () {
   function evaluateGuess(guess) {
     $("#statusBar").text("");
     $("#blurbBar").text(questionBank[currentQuestion - 1].theBlurb);
+    clearInterval(intervalID);
     if (guess === rightAns) {
       $("#statusBar").html("That's right!");
       right = right + 1;
@@ -62,7 +59,6 @@ $(document).ready(function () {
     if (currentQuestion == 10) {
       setTimeout(totalScore, 5000);
     } else {
-      // questTimer();
       displayQuestion(questionBank[currentQuestion]);
     }
   }
@@ -93,17 +89,14 @@ $(document).ready(function () {
     currentQuestion++;
   }
 
-  function stop() {
-    clearInterval(intervalID);
-    $("#statusBar").text("");
-  }
-
   function countDown() {
     $("#statusBar").text("You have " + count + " seconds left...");
     count--;
     if (count === 0) {
       clearInterval(intervalID);
       $("#statusBar").text("");
+      wrong = wrong + 1;
+      console.log(wrong + " wrong answers");
       timeUp();
     }
   }
@@ -112,7 +105,6 @@ $(document).ready(function () {
     $("#statusBar").text("Time's up!");
     $("#blurbBar").text(questionBank[currentQuestion - 1].theBlurb);
     setTimeout(loadNewQuestion, 5000);
-    wrong = wrong++;
   }
 });
 
