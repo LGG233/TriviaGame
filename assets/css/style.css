@@ -6,3 +6,9 @@
 .answerBtn {
     background-color: crimson!important;
 }
+
+#photoSpot {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
