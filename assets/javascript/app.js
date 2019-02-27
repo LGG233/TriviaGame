@@ -23,15 +23,17 @@ var blurbText = ""; // placeholder for explanation of correctAnswer
 var currentQuestion = 0; // variable to iterate through the array
 var count; // placeholder; will be used to put 30 seconds on the clock
 var intervalID; // placeholder; declare variable at global level
-
+var buttonText = "Start";
 
 $(document).ready(function () {
-  $("#new-game-btn").hide();
-  displayQuestion(questionBank[currentQuestion]);
+  $("#new-game-btn").show();
+  $("#new-game-btn").text("Start Game");
+  hideEverything();
+  playAgain();
+  // displayQuestion(questionBank[currentQuestion]);
   $(".answerBtn").click(function () {
     var playerGuess = $(this).data("letter");
     // (".answerBtn").attr("disabled", "disabled");
-    $("#statusBar").text("");
     evaluateGuess(playerGuess);
     playAgain();
   });
@@ -53,18 +55,16 @@ $(document).ready(function () {
     if (guess === rightAns) {
       $("#statusBar").html("That's right!");
       right = right + 1;
-      console.log(right + " right answers");
     } else {
       $("#statusBar").html("Nope, that's not it. ");
       wrong = wrong + 1;
-      console.log(wrong + " wrong answers");
     }
-    setTimeout(loadNewQuestion, 4000);
+    setTimeout(loadNewQuestion, 5000);
   }
 
   function loadNewQuestion() {
     if (currentQuestion == 10) {
-      setTimeout(totalScore, 4000);
+      totalScore();
     } else {
       displayQuestion(questionBank[currentQuestion]);
     }
@@ -73,14 +73,23 @@ $(document).ready(function () {
   function totalScore() {
     $("#askedQuestion").show();
     $(".answerBtn").hide()
-    $("#photoSpot").hide();  
+    $("#photoSpot").hide();
     $("#statusBar").text("");
     if (right > wrong) {
       $("#askedQuestion").text("Good job! Your final score: " + right + " right answers, " + wrong + " wrong answers, and " + missed + " unanswered questions");
     } else {
       $("#askedQuestion").text("Guess you need to study up on your Academy Awards history - you got " + wrong + " wrong, " + missed + " unanswered questions, and only " + right + " questions right");
     }
+    $("#new-game-btn").text("Play Again")
     $("#new-game-btn").show();
+  }
+
+  function hideEverything() {
+    $("#statusBar").hide();
+    $("#askedQuestion").hide();
+    $("#photoSpot").hide();
+    $(".answerBtn").hide();
+    $("#blurbBar").hide();
   }
 
   function displayQuestion(foo) {
@@ -99,15 +108,17 @@ $(document).ready(function () {
   }
 
   function countDown() {
-    $("#statusBar").text("You have " + count + " seconds...");
-    count--;
-    if (count === 0) {
+    if (count < 10) {
+      count = "0" + count;
+    }
+    $("#statusBar").text("00:" + count);
+    if (count == 0) {
       clearInterval(intervalID);
       $("#statusBar").text("");
       missed = missed + 1;
-      console.log(missed + " missed answers");
       timeUp();
     }
+    count--;
   }
 
   function timeUp() {
@@ -127,11 +138,10 @@ $(document).ready(function () {
       missed = 0;
       currentQuestion = 0;
       $("#new-game-btn").hide();
+      $("#statusBar").show();
+     
       displayQuestion(questionBank[currentQuestion]);
     })
   }
 
 });
-
-  // DOM elements
-  // pictures to illustrate each question
