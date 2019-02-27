@@ -1,8 +1,8 @@
+.red-carpet {
+    background-color: crimson!important;
+    color: white;
+    /* z-index: 1; */
+}
 .answerBtn {
-    width: 500px;
+    background-color: crimson!important;
 }
-
-#new-game-btn {
-    text-align: center
-}
-

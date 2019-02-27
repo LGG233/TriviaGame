@@ -75,7 +75,7 @@ $(document).ready(function () {
     $(".answerBtn").hide()
     $("#photoSpot").hide();
     $("#statusBar").text("");
-    if (right > wrong) {
+    if (right > (wrong + missed)) {
       $("#askedQuestion").text("Good job! Your final score: " + right + " right answers, " + wrong + " wrong answers, and " + missed + " unanswered questions");
     } else {
       $("#askedQuestion").text("Guess you need to study up on your Academy Awards history - you got " + wrong + " wrong, " + missed + " unanswered questions, and only " + right + " questions right");
