@@ -130,7 +130,6 @@ $(document).ready(function () {
       currentQuestion = 0;
       $("#new-game-btn").hide();
       $("#statusBar").show();
-     
       displayQuestion(questionBank[currentQuestion]);
     })
   }
