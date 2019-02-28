@@ -1,8 +1,8 @@
 # TriviaGame
 
-# So you say you like to  watch movies...
+# So you say you like movies...
 
-So you say you like to watch movies is an Academy Awards trivia game, with ten questions about Oscar-winning films from the history of cinema. The multiple-choice questions are timed, so that players must answer each question within 30 seconds. 
+So you say you like movies is an Academy Awards trivia game, with ten questions about Oscar-winning films and performers from the history of cinema. The multiple-choice questions are timed, so that players must answer each question within 30 seconds. 
 
 Right and wrong answers, as well as unanswered questions, are tracked and reported back at the end of the game.
 
