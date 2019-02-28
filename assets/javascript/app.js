@@ -5,7 +5,7 @@ var questionBank = [
   { theQuestion: "Who has won the most Oscars for directing?", answerA: "Steven Spielberg", answerB: "John Ford", answerC: "William Wyler", answerD: "Frank Capra", theBlurb: "John Ford won four Best Director Oscars, for <em>The Informer</em> (1935), <em>The Grapes of Wrath</em> (1940), <em>How Green Was My Valley</em> (1941), and <em>The Quiet Man</em> (1952). He was also nominated for <em>Stagecoach</em> (1939). William Wyler and Frank Capra both have won three times.", rightAns: "B", image: "assets/images/John-Ford.jpg", altText: "John Ford" },
   { theQuestion: "Which actor has been nominated most often for Oscars?", answerA: "Spencer Tracy", answerB: "Laurence Olivier", answerC: "Al Pacino", answerD: "Jack Nicholson", theBlurb: "Jack Nicholson was nominated 12 times for his performances.", rightAns: "D", image: "assets/images/JackNicholson.jpg", altText: "Jack Nicholson" },
   { theQuestion: "Which film was the first to win Academy Awards for Best Picture, Best Director, Best Actor, Best Actress, and Best Screenplay?", answerA: "<em>One Flew Over the Cuckoo's Nest</em>", answerB: "<em>Gone With the Wind</em>", answerC: "<em>It Happened One Night</em>", answerD: "<em>The Silence of the Lambs</em>", theBlurb: "Frank Capra's influential romantic comedy <em>It Happened One Night</em> became the first film to perform a clean sweep of the top five categories: Best Picture, Best Director, Best Actor, Best Actress and Best Screenplay. This feat would later be duplicated by <em>One Flew Over the Cuckoo's Nest</em> in 1976 and <em>The Silence of the Lambs</em> in 1992.", rightAns: "C", image: "assets/images/IT-HAPPENED-ONE-NIGHT.jpg", altText: "It Happened One Night" },
-  { theQuestion: "Who is the only African-American woman to win a Best Actress Oscar?", answerA: "Hattie McDaniel", answerB: "Halle Berry", answerC: "Whoopi Goldberg", answerD: "Jennifer Hudson", theBlurb: "Shockingly, Halle Berry is the only African American to win the Best Actress award, for her performance in <em>Monster's Ball</em> (2001).", rightAns: "B", image: "assets/images/Halle-Berry.jpg", altText: "Halle Berry" },
+  { theQuestion: "Who is the only African-American woman to win a Best Actress Oscar?", answerA: "Hattie McDaniel", answerB: "Halle Berry", answerC: "Whoopi Goldberg", answerD: "Jennifer Hudson", theBlurb: "Shockingly, only one African-American has won the Best Actress award in 90+ years of Academy Awards: Halle Berry, for her performance in <em>Monster's Ball</em> (2001).", rightAns: "B", image: "assets/images/Halle-Berry.jpg", altText: "Halle Berry" },
   { theQuestion: "Which film series has won more than one Academy Award for Best Picture?", answerA: "<em>The Lord of the Rings</em>", answerB: "<em>Rocky</em>", answerC: "<em>The Godfather</em>", answerD: "<em>James Bond</em>", theBlurb: "<em>The Godfather</em> series is the only film series to win more than one Best Picture award, for <em>The Godfather</em> (1972) and <em>The Godfather: Part II<em> (1974).", rightAns: "C", image: "assets/images/Godfather.jpg", altText: "The Godfather" },
   { theQuestion: "Who is the oldest woman to win an Academy Award for acting?", answerA: "Katharine Hepburn", answerB: "Helen Mirren", answerC: "Jessica Tandy", answerD: "Geraldine Page", theBlurb: "Jessica Tandy was the oldest winner of an acting award when she won the Best Actress Oscar for <em>Driving Miss Daisy</em> (1989).", rightAns: "C", image: "assets/images/Jessica-Tandy.jpg", altText: "Jessica Tandy" },
   { theQuestion: "Who has won the most Oscars?", answerA: "Katharine Hepburn", answerB: "Jack Nicholson", answerC: "Meryl Streep", answerD: "Walt Disney", theBlurb: "Walt Disney won the most Academy Awards, with 22 competitive and 4 honorary Oscars.", rightAns: "D", image: "assets/images/Walt-Disney.jpg", altText: "Walt Disney" }
@@ -18,6 +18,7 @@ var blurbText = ""; // placeholder for explanation of correctAnswer
 var currentQuestion = 0; // variable to iterate through the array
 var count; // placeholder; will be used to put 30 seconds on the clock
 var intervalID; // placeholder; declare variable at global level
+var anyToken = ""; // variable for translating player click into selected answer 
 
 $(document).ready(function () {
   $("#new-game-btn").show();
@@ -26,6 +27,7 @@ $(document).ready(function () {
   playAgain();
   $(".answerBtn").click(function () {
     var playerGuess = $(this).data("letter");
+    answerKey = "answer" + playerGuess;
     evaluateGuess(playerGuess);
   });
 
@@ -44,10 +46,10 @@ $(document).ready(function () {
     $("#photoSpot").html("<img src=" + questionBank[currentQuestion - 1].image + " alt=" + questionBank[currentQuestion - 1].altText + " id='photoSpot'>");
     clearInterval(intervalID);
     if (guess === rightAns) {
-      $("#statusBar").html("That's right!");
+      $("#statusBar").html(questionBank[currentQuestion - 1][answerKey] + " is right!");
       right = right + 1;
     } else {
-      $("#statusBar").html("Nope, that's not it. ");
+      $("#statusBar").html("Nope, it's not " + questionBank[currentQuestion - 1][answerKey] + ".");
       wrong = wrong + 1;
     }
     setTimeout(loadNewQuestion, 5000);
